@@ -19,8 +19,8 @@ public class KorisnikMapper {
         KorisniciDto userDto = new KorisniciDto();
         userDto.setId(user.getId());
         userDto.setEmail(user.getEmail());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
+        userDto.setIme(user.getIme());
+        userDto.setPrezime(user.getPrezime());
         userDto.setUsername(user.getUsername());
         return userDto;
     }
