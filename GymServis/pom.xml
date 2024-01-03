@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>org.example</groupId>
-    <artifactId>UserService</artifactId>
+    <artifactId>GymService</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
