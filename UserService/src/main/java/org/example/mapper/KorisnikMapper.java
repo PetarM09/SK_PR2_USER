@@ -1,8 +1,11 @@
 package org.example.mapper;
 
+import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
+import org.example.domain.Menadzer;
 import org.example.dto.KorisniciCreateDto;
 import org.example.dto.KorisniciDto;
+import org.example.dto.MenadzerDTO;
 import org.example.repository.TipKorisnikaRepository;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +37,21 @@ public class KorisnikMapper {
         user.setPassword(userCreateDto.getPassword());
         user.setTipKorisnika(roleRepository.findByNaziv("TipKorisnika_Korisnici").get());
 
+        if ("KLIJENT".equals(userCreateDto.getTipKorisnikaNaziv())) {
+            if (user.getKlijent() == null) {
+                user.setKlijent(new Klijent());
+            }
+            KorisniciCreateDto.KlijentCreateDto klijentDto = (KorisniciCreateDto.KlijentCreateDto) userCreateDto;
+            user.getKlijent().setClanskaKarta(klijentDto.getClanskaKarta());
+            user.getKlijent().setZakazaniTreninzi(klijentDto.getBrojZakazanihTrenutnih());
+        } else if ("MENADZER".equals(userCreateDto.getTipKorisnikaNaziv())) {
+            if (user.getMenadzer() == null) {
+                user.setMenadzer(new Menadzer());
+            }
+            KorisniciCreateDto.MenadzerCreateDto menadzerDto = (KorisniciCreateDto.MenadzerCreateDto) userCreateDto;
+            user.getMenadzer().setSalaNaziv(menadzerDto.getSalaNaziv());
+            user.getMenadzer().setDatumZaposljavanja(menadzerDto.getDatumZaposljavanja());
+        }
         return user;
     }
 }

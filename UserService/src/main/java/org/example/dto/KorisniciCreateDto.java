@@ -9,38 +9,76 @@ import java.util.Objects;
 /**
  * DTO for {@link org.example.domain.Korisnici}
  */
-public class KorisniciCreateDto implements Serializable {
-    private final Integer id;
+public class KorisniciCreateDto {
+    private Integer id;
     @NotNull
     @Size(max = 255)
-    private final String username;
+    private String username;
     @NotNull
     @Size(max = 255)
-    private final String password;
+    private String password;
     @NotNull
     @Size(max = 255)
-    private final String email;
+    private String email;
     @NotNull
-    private final LocalDate datumRodjenja;
-    @NotNull
-    @Size(max = 255)
-    private final String ime;
+    private LocalDate datumRodjenja;
     @NotNull
     @Size(max = 255)
-    private final String prezime;
-    private final Integer tipKorisnikaId;
-    private final String tipKorisnikaNaziv;
+    private String ime;
+    @NotNull
+    @Size(max = 255)
+    private String prezime;
+    private Integer tipKorisnikaId;
+    private String tipKorisnikaNaziv;
 
-    public KorisniciCreateDto(Integer id, String username, String password, String email, LocalDate datumRodjenja, String ime, String prezime, Integer tipKorisnikaId, String tipKorisnikaNaziv) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.datumRodjenja = datumRodjenja;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.tipKorisnikaId = tipKorisnikaId;
-        this.tipKorisnikaNaziv = tipKorisnikaNaziv;
+    public static class KlijentCreateDto extends KorisniciCreateDto {
+        @NotNull
+        @Size(max = 20)
+        private String clanskaKarta;
+
+        @NotNull
+        private Integer brojZakazanihTrenutnih;
+
+        public String getClanskaKarta() {
+            return clanskaKarta;
+        }
+
+        public void setClanskaKarta(String clanskaKarta) {
+            this.clanskaKarta = clanskaKarta;
+        }
+
+        public Integer getBrojZakazanihTrenutnih() {
+            return brojZakazanihTrenutnih;
+        }
+
+        public void setBrojZakazanihTrenutnih(Integer brojZakazanihTrenutnih) {
+            this.brojZakazanihTrenutnih = brojZakazanihTrenutnih;
+        }
+    }
+
+    public static class MenadzerCreateDto extends KorisniciCreateDto {
+        @NotNull
+        @Size(max = 255)
+        private String salaNaziv;
+
+        @NotNull
+        private LocalDate datumZaposljavanja;
+
+        public String getSalaNaziv() {
+            return salaNaziv;
+        }
+
+        public void setSalaNaziv(String salaNaziv) {
+            this.salaNaziv = salaNaziv;
+        }
+
+        public LocalDate getDatumZaposljavanja() {
+            return datumZaposljavanja;
+        }
+
+        public void setDatumZaposljavanja(LocalDate datumZaposljavanja) {
+            this.datumZaposljavanja = datumZaposljavanja;
+        }
     }
 
     public Integer getId() {
@@ -79,38 +117,39 @@ public class KorisniciCreateDto implements Serializable {
         return tipKorisnikaNaziv;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        KorisniciCreateDto entity = (KorisniciCreateDto) o;
-        return Objects.equals(this.id, entity.id) &&
-                Objects.equals(this.username, entity.username) &&
-                Objects.equals(this.password, entity.password) &&
-                Objects.equals(this.email, entity.email) &&
-                Objects.equals(this.datumRodjenja, entity.datumRodjenja) &&
-                Objects.equals(this.ime, entity.ime) &&
-                Objects.equals(this.prezime, entity.prezime) &&
-                Objects.equals(this.tipKorisnikaId, entity.tipKorisnikaId) &&
-                Objects.equals(this.tipKorisnikaNaziv, entity.tipKorisnikaNaziv);
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, password, email, datumRodjenja, ime, prezime, tipKorisnikaId, tipKorisnikaNaziv);
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "username = " + username + ", " +
-                "password = " + password + ", " +
-                "email = " + email + ", " +
-                "datumRodjenja = " + datumRodjenja + ", " +
-                "ime = " + ime + ", " +
-                "prezime = " + prezime + ", " +
-                "tipKorisnikaId = " + tipKorisnikaId + ", " +
-                "tipKorisnikaNaziv = " + tipKorisnikaNaziv + ")";
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
+        this.datumRodjenja = datumRodjenja;
+    }
+
+    public void setIme(String ime) {
+        this.ime = ime;
+    }
+
+    public void setPrezime(String prezime) {
+        this.prezime = prezime;
+    }
+
+    public void setTipKorisnikaId(Integer tipKorisnikaId) {
+        this.tipKorisnikaId = tipKorisnikaId;
+    }
+
+    public void setTipKorisnikaNaziv(String tipKorisnikaNaziv) {
+        this.tipKorisnikaNaziv = tipKorisnikaNaziv;
     }
 }

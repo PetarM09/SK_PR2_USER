@@ -1,12 +1,14 @@
 package org.example.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "korisnici")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Korisnici {
     @Id
     @Column(name = "id", nullable = false)
@@ -25,6 +27,7 @@ public class Korisnici {
     @Size(max = 255)
     @NotNull
     @Column(name = "email", nullable = false)
+    @Email
     private String email;
 
     @NotNull
@@ -45,6 +48,15 @@ public class Korisnici {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tip_korisnika_id", nullable = false)
     private TipKorisnika tipKorisnika;
+
+    @OneToOne(mappedBy = "korisnik")
+    private Klijent klijent;
+
+    @OneToOne(mappedBy = "korisnik")
+    private Menadzer menadzer;
+
+    @OneToOne(mappedBy = "korisnici")
+    private Zabrane zabrane;
 
     public Integer getId() {
         return id;
@@ -110,4 +122,19 @@ public class Korisnici {
         this.tipKorisnika = tipKorisnika;
     }
 
+    public Klijent getKlijent() {
+        return klijent;
+    }
+
+    public void setKlijent(Klijent klijent) {
+        this.klijent = klijent;
+    }
+
+    public Menadzer getMenadzer() {
+        return menadzer;
+    }
+
+    public void setMenadzer(Menadzer menadzer) {
+        this.menadzer = menadzer;
+    }
 }

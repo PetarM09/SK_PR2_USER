@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/korisnici")
 public class UserController {
 
     private UserService userService;
@@ -38,7 +38,7 @@ public class UserController {
                             "Default sort order is ascending. " +
                             "Multiple sort criteria are supported.")})
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
+    @CheckSecurity(roles = {"tip_korisnika_ADMIN", "tip_korisnika_KORISNIK, tip_korisnika_MENADZER"})
     public ResponseEntity<Page<KorisniciDto>> getAllUsers(@RequestHeader("Authorization") String authorization,
                                                           Pageable pageable) {
 
@@ -47,16 +47,19 @@ public class UserController {
 
 
     @ApiOperation(value = "Register user")
-    @PostMapping
+    @PostMapping("/register-user")
     public ResponseEntity<KorisniciDto> registerUser(@RequestBody @Valid KorisniciCreateDto userCreateDto) {
+        userCreateDto.setTipKorisnikaNaziv("KLIJENT");
         return new ResponseEntity<>(userService.add(userCreateDto), HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "Register menadzer")
-    @PostMapping
+    @ApiOperation(value = "Register user")
+    @PostMapping("/register-manager")
     public ResponseEntity<KorisniciDto> registerManager(@RequestBody @Valid KorisniciCreateDto userCreateDto) {
+        userCreateDto.setTipKorisnikaNaziv("MENADZER");
         return new ResponseEntity<>(userService.add(userCreateDto), HttpStatus.CREATED);
     }
+    @CheckSecurity(roles = {"tip_korisnika_KORISNIK", "tip_korisnika_MENADZER", "tip_korisnika_ADMIN"})
     @ApiOperation(value = "Login")
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> loginUser(@RequestBody @Valid TokenRequestDto tokenRequestDto) throws NotFoundException {
