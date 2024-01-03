@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.domain.Korisnici;
 import org.example.domain.TipKorisnika;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

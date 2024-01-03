@@ -5,8 +5,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@DiscriminatorValue("K")
-public class Klijent extends Korisnici {
+@Table(name = "klijent")
+public class Klijent implements java.io.Serializable{
+    @Id
     @OneToOne
     @JoinColumn(name = "korisnik_id")
     private Korisnici korisnik;

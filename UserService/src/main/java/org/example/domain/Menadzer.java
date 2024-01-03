@@ -6,8 +6,9 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@DiscriminatorValue("M")
-public class Menadzer extends Korisnici {
+@Table(name = "menadzer")
+public class Menadzer implements java.io.Serializable{
+    @Id
     @OneToOne
     @JoinColumn(name = "korisnik_id")
     private Korisnici korisnik;

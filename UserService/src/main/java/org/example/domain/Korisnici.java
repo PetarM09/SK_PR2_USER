@@ -4,12 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "korisnici")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Korisnici {
+public class Korisnici implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;
@@ -55,7 +55,7 @@ public class Korisnici {
     @OneToOne(mappedBy = "korisnik")
     private Menadzer menadzer;
 
-    @OneToOne(mappedBy = "korisnici")
+    @OneToOne(mappedBy = "korisnik")
     private Zabrane zabrane;
 
     public Integer getId() {

@@ -18,10 +18,9 @@ public class ProfilController {
         this.profilService = profilService;
     }
 
-    @PutMapping("/{korisnikId}")
+    @PutMapping()
     public ResponseEntity<KorisniciDto> azurirajProfil(
-            @PathVariable Long korisnikId,
-            @RequestBody @Valid KorisniciDto updateDto) throws NotFoundException {
+            @RequestBody @Valid KorisniciDto updateDto, Long korisnikId) throws NotFoundException {
         KorisniciDto azuriraniProfil = profilService.azurirajProfil(Math.toIntExact(korisnikId), updateDto);
         return new ResponseEntity<>(azuriraniProfil, HttpStatus.OK);
     }

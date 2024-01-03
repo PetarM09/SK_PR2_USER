@@ -18,13 +18,13 @@ public class AdminController {
     }
 
     @PostMapping("/zabrani-pristup/{korisnikId}")
-    public ResponseEntity<String> zabraniPristup(@PathVariable Long korisnikId) {
+    public ResponseEntity<String> zabraniPristup(@PathVariable Integer korisnikId) {
         adminService.zabraniPristup(korisnikId);
         return ResponseEntity.ok("Pristup je zabranjen.");
     }
 
     @PostMapping("/odobri-pristup/{korisnikId}")
-    public ResponseEntity<String> odobriPristup(@PathVariable Long korisnikId) {
+    public ResponseEntity<String> odobriPristup(@PathVariable Integer korisnikId) {
         adminService.odobriPristup(korisnikId);
         return ResponseEntity.ok("Pristup je odobren.");
     }

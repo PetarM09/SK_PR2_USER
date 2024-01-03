@@ -1,7 +1,7 @@
 package org.example.service;
 
 public interface AdminService {
-    void zabraniPristup(Long korisnikId);
+    void zabraniPristup(Integer korisnik_id);
 
-    void odobriPristup(Long korisnikId);
+    void odobriPristup(Integer korisnik_id);
 }

@@ -15,12 +15,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void zabraniPristup(Long korisnikId) {
-        zabraneRepository.updateZabranaStatus(korisnikId, true);
+    public void zabraniPristup(Integer korisnik_id) {
+        zabraneRepository.updateZabranaStatus(korisnik_id, true);
     }
 
     @Override
-    public void odobriPristup(Long korisnikId) {
-        zabraneRepository.updateZabranaStatus(korisnikId, false);
+    public void odobriPristup(Integer korisnik_id) {
+        zabraneRepository.updateZabranaStatus(korisnik_id, false);
     }
 }

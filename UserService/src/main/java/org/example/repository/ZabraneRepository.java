@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ZabraneRepository extends JpaRepository<Zabrane, Long> {
     @Modifying
-    @Query("UPDATE Zabrane z SET z.zabranjen = :zabranjen WHERE z.korisnikId = :korisnikId")
-    void updateZabranaStatus(@Param("korisnikId") Long korisnikId, @Param("zabranjen") boolean zabranjen);
+    @Query("UPDATE Zabrane z SET z.zabranjen = :zabranjen WHERE z.korisnikId = :korisnik_id")
+    void updateZabranaStatus(@Param("korisnik_id") Integer korisnik_id, @Param("zabranjen") boolean zabranjen);
 }
 

@@ -3,33 +3,43 @@ package org.example.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "zabrane")
-public class Zabrane {
-    @Id
-    @Column(name = "korisnik_id", nullable = false)
-    private Long korisnikId;
+@Table (name = "zabrane")
+public class Zabrane implements java.io.Serializable{
 
+    @Id
+    @Column(name = "korisnik_id")
+    private Integer korisnikId;
+
+    @MapsId
     @OneToOne
     @JoinColumn(name = "korisnik_id")
-    private Korisnici korisnici;
+    private Korisnici korisnik;
 
     @Column(name = "zabranjen", nullable = false)
     private boolean zabranjen;
 
-    public Long getKorisnikId() {
+    public Integer getKorisnikId() {
         return korisnikId;
     }
 
-    public void setKorisnikId(Long korisnikId) {
+    public void setKorisnikId(Integer korisnikId) {
         this.korisnikId = korisnikId;
     }
 
-    public Korisnici getKorisnici() {
-        return korisnici;
+    public Korisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setKorisnici(Korisnici korisnici) {
-        this.korisnici = korisnici;
+    public void setKorisnik(Korisnici korisnik) {
+        this.korisnik = korisnik;
+    }
+
+    public Korisnici getKorisnici() {
+        return korisnik;
+    }
+
+    public void setKorisnici(Korisnici korisnik) {
+        this.korisnik = korisnik;
     }
 
     public boolean isZabranjen() {
