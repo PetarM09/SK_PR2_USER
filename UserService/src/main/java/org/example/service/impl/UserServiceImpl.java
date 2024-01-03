@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
     public TokenResponseDto login(TokenRequestDto tokenRequestDto) throws NotFoundException {
         //Try to find active user for specified credentials
         Korisnici user = userRepository
-                .findByUsernameAndPassword(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
+                .findByEmailAndPassword(tokenRequestDto.getEmail(), tokenRequestDto.getPassword())
                 .orElseThrow(() -> new NotFoundException(String
-                        .format("User with username: %s and password: %s not found.", tokenRequestDto.getUsername(),
+                        .format("User with email: %s and password: %s not found.", tokenRequestDto.getEmail(),
                                 tokenRequestDto.getPassword())));
         //Create token payload
         Claims claims = Jwts.claims();

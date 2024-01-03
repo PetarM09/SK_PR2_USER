@@ -1,24 +1,26 @@
 package org.example.dto;
 
-public class TokenRequestDto {
+import javax.validation.constraints.Email;
 
-    private String username;
+public class TokenRequestDto {
+    @Email
+    private String email;
     private String password;
 
     public TokenRequestDto() {
     }
 
-    public TokenRequestDto(String username, String password) {
-        this.username = username;
+    public TokenRequestDto(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

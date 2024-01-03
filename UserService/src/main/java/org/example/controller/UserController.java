@@ -48,10 +48,15 @@ public class UserController {
 
     @ApiOperation(value = "Register user")
     @PostMapping
-    public ResponseEntity<KorisniciDto> saveUser(@RequestBody @Valid KorisniciCreateDto userCreateDto) {
+    public ResponseEntity<KorisniciDto> registerUser(@RequestBody @Valid KorisniciCreateDto userCreateDto) {
         return new ResponseEntity<>(userService.add(userCreateDto), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Register menadzer")
+    @PostMapping
+    public ResponseEntity<KorisniciDto> registerManager(@RequestBody @Valid KorisniciCreateDto userCreateDto) {
+        return new ResponseEntity<>(userService.add(userCreateDto), HttpStatus.CREATED);
+    }
     @ApiOperation(value = "Login")
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> loginUser(@RequestBody @Valid TokenRequestDto tokenRequestDto) throws NotFoundException {
