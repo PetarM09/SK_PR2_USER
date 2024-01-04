@@ -62,6 +62,9 @@ public class UserController {
     @ApiOperation(value = "Login")
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> loginUser(@RequestBody @Valid TokenRequestDto tokenRequestDto) throws NotFoundException {
-        return new ResponseEntity<>(userService.login(tokenRequestDto), HttpStatus.OK);
+        TokenResponseDto tokenResponseDto = userService.login(tokenRequestDto);
+        if (tokenResponseDto.getToken().equals("Zabranjen pristup"))
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
     }
 }

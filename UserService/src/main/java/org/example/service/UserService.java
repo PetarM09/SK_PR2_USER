@@ -16,4 +16,7 @@ public interface UserService {
     KorisniciDto add(KorisniciCreateDto userCreateDto);
 
     TokenResponseDto login(TokenRequestDto tokenRequestDto) throws NotFoundException;
+
+    boolean proveriZabranu(Integer idKorisnika);
+
 }

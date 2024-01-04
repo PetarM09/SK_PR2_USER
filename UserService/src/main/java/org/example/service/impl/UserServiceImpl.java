@@ -16,13 +16,19 @@ import org.example.security.service.TokenService;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-
+    @PersistenceContext
+    private EntityManager entityManager;
     private TokenService tokenService;
     private KorisniciRepository userRepository;
     private KorisnikMapper userMapper;
@@ -54,11 +60,28 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException(String
                         .format("User with email: %s and password: %s not found.", tokenRequestDto.getEmail(),
                                 tokenRequestDto.getPassword())));
+
+
+        if(proveriZabranu(user.getId())){
+            return new TokenResponseDto("Zabranjen pristup");
+        }
         //Create token payload
         Claims claims = Jwts.claims();
         claims.put("id", user.getId());
         claims.put("tip_korisnika", user.getTipKorisnika().getNaziv());
         //Generate token
         return new TokenResponseDto(tokenService.generate(claims));
+    }
+    @Override
+    public boolean proveriZabranu(Integer korisnik_id) {
+        try {
+            String jpql = "SELECT z.zabranjen FROM Zabrane z WHERE z.korisnikId = :korisnik_id";
+            Boolean zabranjenValue = entityManager.createQuery(jpql, Boolean.class)
+                    .setParameter("korisnik_id", korisnik_id)
+                    .getSingleResult();
+            return zabranjenValue;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -5,9 +5,13 @@ import org.example.service.AdminService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 @Service
 @Transactional
 public class AdminServiceImpl implements AdminService {
+
     private final ZabraneRepository zabraneRepository;
 
     public AdminServiceImpl(ZabraneRepository zabraneRepository) {
@@ -23,4 +27,5 @@ public class AdminServiceImpl implements AdminService {
     public void odobriPristup(Integer korisnik_id) {
         zabraneRepository.updateZabranaStatus(korisnik_id, false);
     }
+
 }

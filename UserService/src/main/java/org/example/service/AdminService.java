@@ -4,4 +4,5 @@ public interface AdminService {
     void zabraniPristup(Integer korisnik_id);
 
     void odobriPristup(Integer korisnik_id);
+
 }

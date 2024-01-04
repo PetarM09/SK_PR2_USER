@@ -74,8 +74,10 @@ public class LoginGUI extends JFrame {
                     if (response.statusCode() == 200) {
                         dispose(); // Zatvara trenutni prozor
                         System.exit(0);
-                    } else {
-                        JOptionPane.showMessageDialog(LoginGUI.this, "Pogrešno korisničko ime ili lozinka.", "Greška", JOptionPane.ERROR_MESSAGE);
+                    } else if(response.statusCode() == 403){
+                        JOptionPane.showMessageDialog(LoginGUI.this, "Zabranjen pristup", "Greška", JOptionPane.ERROR_MESSAGE);
+                    } else{
+                        JOptionPane.showMessageDialog(LoginGUI.this, "Pogrešni kredencijali", "Greška", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (InterruptedException | IOException ex) {
                     ex.printStackTrace();
