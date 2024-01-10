@@ -5,24 +5,25 @@ package org.example.service.impl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import javassist.NotFoundException;
+import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
 import org.example.dto.KorisniciCreateDto;
 import org.example.dto.KorisniciDto;
 import org.example.dto.TokenRequestDto;
 import org.example.dto.TokenResponseDto;
 import org.example.mapper.KorisnikMapper;
+import org.example.repository.KlijentRepository;
 import org.example.repository.KorisniciRepository;
 import org.example.security.service.TokenService;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,11 +33,13 @@ public class UserServiceImpl implements UserService {
     private TokenService tokenService;
     private KorisniciRepository userRepository;
     private KorisnikMapper userMapper;
+    private KlijentRepository klijentRepository;
 
-    public UserServiceImpl(KorisniciRepository userRepository, TokenService tokenService, KorisnikMapper userMapper) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(TokenService tokenService, KorisniciRepository userRepository, KorisnikMapper userMapper, KlijentRepository klijentRepository) {
         this.tokenService = tokenService;
+        this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.klijentRepository = klijentRepository;
     }
 
     @Override
@@ -83,5 +86,10 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public Optional<Klijent> findById(Integer id) {
+        return klijentRepository.findById(id);
     }
 }

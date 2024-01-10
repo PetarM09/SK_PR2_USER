@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
+import org.example.domain.Klijent;
+import org.example.domain.Korisnici;
 import org.example.dto.KorisniciCreateDto;
 import org.example.dto.KorisniciDto;
 import org.example.dto.TokenRequestDto;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/korisnici")
@@ -66,5 +69,12 @@ public class UserController {
         if (tokenResponseDto.getToken().equals("Zabranjen pristup"))
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/brojTreninga/{id}")
+    public ResponseEntity<Integer> brojTreninga(@RequestBody Integer id) throws NotFoundException {
+        Optional<Klijent> klijent = userService.findById(id);
+
+        return new ResponseEntity<>(klijent.get().getZakazaniTreninzi(), HttpStatus.OK);
     }
 }
