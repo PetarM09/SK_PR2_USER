@@ -7,10 +7,10 @@ import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
-import org.example.dto.*;
-import org.example.mapper.KorisnikMapper;
-import org.example.repository.KlijentRepository;
-import org.example.repository.KorisniciRepository;
+import org.example.dto.KorisniciCreateDto;
+import org.example.dto.KorisniciDto;
+import org.example.dto.TokenRequestDto;
+import org.example.dto.TokenResponseDto;
 import org.example.security.CheckSecurity;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
@@ -20,9 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -30,8 +27,6 @@ import java.util.Optional;
 public class UserController {
 
     private UserService userService;
-    private KlijentRepository klijentRepository;
-    private KorisniciRepository korisniciRepository;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -76,21 +71,10 @@ public class UserController {
         return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "getUser")
-    @GetMapping ("/getUser/{id}")
-    public ResponseEntity<KlijentIKorisnikDTO> getUser(@RequestParam String id) throws NotFoundException {
+    @GetMapping("/brojTreninga/{id}")
+    public ResponseEntity<Integer> brojTreninga(@RequestBody Integer id) throws NotFoundException {
+        Optional<Klijent> klijent = userService.findById(id);
 
-        Optional<Klijent> klijent = userService.findKlijentByID(Integer.parseInt(id));
-        Optional<Korisnici> korisnik = userService.findKorisnikByID(Integer.parseInt(id));
-
-        KlijentIKorisnikDTO klijentIKorisnikDTO = new KlijentIKorisnikDTO();
-        klijentIKorisnikDTO.setEmail(korisnik.get().getEmail());
-        klijentIKorisnikDTO.setIme(korisnik.get().getIme());
-        klijentIKorisnikDTO.setPrezime(korisnik.get().getPrezime());
-        klijentIKorisnikDTO.setClanskaKarta(klijent.get().getClanskaKarta());
-        klijentIKorisnikDTO.setDatumRodjenja(korisnik.get().getDatumRodjenja());
-        klijentIKorisnikDTO.setZakazaniTreninzi(klijent.get().getZakazaniTreninzi());
-
-        return new ResponseEntity<>(klijentIKorisnikDTO, HttpStatus.OK);
+        return new ResponseEntity<>(klijent.get().getZakazaniTreninzi(), HttpStatus.OK);
     }
 }

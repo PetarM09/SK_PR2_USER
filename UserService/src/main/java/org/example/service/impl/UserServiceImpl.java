@@ -7,13 +7,15 @@ import io.jsonwebtoken.Jwts;
 import javassist.NotFoundException;
 import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
-import org.example.dto.*;
+import org.example.dto.KorisniciCreateDto;
+import org.example.dto.KorisniciDto;
+import org.example.dto.TokenRequestDto;
+import org.example.dto.TokenResponseDto;
 import org.example.mapper.KorisnikMapper;
 import org.example.repository.KlijentRepository;
 import org.example.repository.KorisniciRepository;
 import org.example.security.service.TokenService;
 import org.example.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,21 +32,14 @@ public class UserServiceImpl implements UserService {
     private EntityManager entityManager;
     private TokenService tokenService;
     private KorisniciRepository userRepository;
-
-    private KlijentRepository klijentRepository;
     private KorisnikMapper userMapper;
+    private KlijentRepository klijentRepository;
 
-//    public UserServiceImpl(TokenService tokenService, KorisniciRepository userRepository, KlijentRepository klijentRepository, KorisnikMapper userMapper) {
-//        this.tokenService = tokenService;
-//        this.userRepository = userRepository;
-//        this.klijentRepository = klijentRepository;
-//        this.userMapper = userMapper;
-//    }
-
-    public UserServiceImpl(KorisniciRepository userRepository, TokenService tokenService, KorisnikMapper userMapper) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(TokenService tokenService, KorisniciRepository userRepository, KorisnikMapper userMapper, KlijentRepository klijentRepository) {
         this.tokenService = tokenService;
+        this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.klijentRepository = klijentRepository;
     }
 
     @Override
@@ -93,11 +88,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public Optional<Korisnici> findKorisnikByID(Integer id){
-        return userRepository.findById(id);
-    }
-    public Optional<Klijent> findKlijentByID(Integer id){
+    @Override
+    public Optional<Klijent> findById(Integer id) {
         return klijentRepository.findById(id);
     }
-
 }

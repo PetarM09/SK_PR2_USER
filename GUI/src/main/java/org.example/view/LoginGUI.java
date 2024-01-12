@@ -59,7 +59,7 @@ public class LoginGUI extends JFrame {
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
 
-                String apiUrl = "http://localhost:8080/api/korisnici/login";
+                String apiUrl = "http://localhost:8084/users/api/korisnici/login";
                 String requestBody = String.format("{\"email\":\"%s\",\"password\":\"%s\"}", email, password);
 
                 HttpRequest request = HttpRequest.newBuilder()
@@ -70,7 +70,6 @@ public class LoginGUI extends JFrame {
 
                 try {
                     HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
                     if (response.statusCode() == 200) {
                         dispose(); // Zatvara trenutni prozor
                         System.exit(0);
