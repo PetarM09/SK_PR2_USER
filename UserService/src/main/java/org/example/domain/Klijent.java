@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 @Table(name = "klijent")
 public class Klijent implements java.io.Serializable{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @OneToOne
     @JoinColumn(name = "korisnik_id")
     private Korisnici korisnik;
@@ -42,5 +44,13 @@ public class Klijent implements java.io.Serializable{
 
     public void setZakazaniTreninzi(Integer zakazaniTreninzi) {
         this.zakazaniTreninzi = zakazaniTreninzi;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

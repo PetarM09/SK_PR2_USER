@@ -5,19 +5,16 @@ package org.example.service.impl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import javassist.NotFoundException;
+import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
-import org.example.dto.KorisniciCreateDto;
-import org.example.dto.KorisniciDto;
-import org.example.dto.TokenRequestDto;
-import org.example.dto.TokenResponseDto;
+import org.example.dto.*;
 import org.example.mapper.KorisnikMapper;
+import org.example.repository.KlijentRepository;
 import org.example.repository.KorisniciRepository;
 import org.example.security.service.TokenService;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +29,12 @@ public class UserServiceImpl implements UserService {
     private TokenService tokenService;
     private KorisniciRepository userRepository;
     private KorisnikMapper userMapper;
-
-    public UserServiceImpl(KorisniciRepository userRepository, TokenService tokenService, KorisnikMapper userMapper) {
+    private KlijentRepository klijentRepository;
+    public UserServiceImpl(KorisniciRepository userRepository, TokenService tokenService, KorisnikMapper userMapper, KlijentRepository klijentRepository){
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.userMapper = userMapper;
+        this.klijentRepository = klijentRepository;
     }
 
     @Override
@@ -83,5 +81,21 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public KorisnikKlijentDTO getUser(Integer id) {
+        Klijent klijent = klijentRepository.findByKorisnikId(id).orElse(null);
+        Korisnici korisnik = userRepository.findById(id).orElse(null);
+        KorisnikKlijentDTO korisnikKlijentDTO = new KorisnikKlijentDTO();
+        korisnikKlijentDTO.setEmail(korisnik.getEmail());
+        korisnikKlijentDTO.setIme(korisnik.getIme());
+        korisnikKlijentDTO.setPrezime(korisnik.getPrezime());
+        korisnikKlijentDTO.setDatumRodjenja(korisnik.getDatumRodjenja());
+        korisnikKlijentDTO.setUsername(korisnik.getUsername());
+        korisnikKlijentDTO.setClanskaKarta(klijent.getClanskaKarta());
+        korisnikKlijentDTO.setZakazaniTreninzi(klijent.getZakazaniTreninzi());
+        return korisnikKlijentDTO;
+
     }
 }

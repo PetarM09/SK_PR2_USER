@@ -5,10 +5,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
-import org.example.dto.KorisniciCreateDto;
-import org.example.dto.KorisniciDto;
-import org.example.dto.TokenRequestDto;
-import org.example.dto.TokenResponseDto;
+import org.example.domain.Klijent;
+import org.example.dto.*;
 import org.example.security.CheckSecurity;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
@@ -67,4 +65,11 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "getUser")
+    @GetMapping("/get/{id}")
+    public ResponseEntity<KorisnikKlijentDTO> getUser(@PathVariable Integer id) throws NotFoundException {
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+    }
+
 }
