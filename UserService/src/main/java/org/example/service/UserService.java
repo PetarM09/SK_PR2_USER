@@ -2,12 +2,13 @@ package org.example.service;
 
 
 import javassist.NotFoundException;
-import org.example.dto.KorisniciCreateDto;
-import org.example.dto.KorisniciDto;
-import org.example.dto.TokenRequestDto;
-import org.example.dto.TokenResponseDto;
+import org.example.domain.Klijent;
+import org.example.domain.Korisnici;
+import org.example.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 public interface UserService {
 
@@ -19,4 +20,6 @@ public interface UserService {
 
     boolean proveriZabranu(Integer idKorisnika);
 
+    Optional<Korisnici> findKorisnikByID(Integer id);
+    Optional<Klijent> findKlijentByID(Integer id);
 }
