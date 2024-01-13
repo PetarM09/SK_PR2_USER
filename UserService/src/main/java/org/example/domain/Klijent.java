@@ -17,6 +17,7 @@ public class Klijent implements java.io.Serializable{
     @Size(max = 255)
     @NotNull
     @Column(name = "clanska_karta", nullable = false)
+    @GeneratedValue
     private String clanskaKarta;
 
     @Column(name = "zakazani_treninzi", nullable = false)
