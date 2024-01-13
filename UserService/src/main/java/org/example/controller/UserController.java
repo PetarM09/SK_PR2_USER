@@ -8,6 +8,7 @@ import javassist.NotFoundException;
 import org.example.domain.Klijent;
 import org.example.dto.*;
 import org.example.security.CheckSecurity;
+import org.example.security.service.TokenService;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +23,11 @@ import javax.validation.Valid;
 public class UserController {
 
     private UserService userService;
+    private TokenService tokenService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     @ApiOperation(value = "Get all users")
