@@ -67,9 +67,16 @@ public class UserController {
     }
 
     @ApiOperation(value = "getUser")
-    @GetMapping("/get/{id}")
+    @GetMapping("/getUser/{id}")
     public ResponseEntity<KorisnikKlijentDTO> getUser(@PathVariable Integer id) throws NotFoundException {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "getUserID")
+    @GetMapping("/getUserID")
+    public ResponseEntity<Long> getUserID(@RequestHeader String authorization) throws NotFoundException {
+        System.out.println(authorization);
+        Long id = tokenService.parseId(authorization);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
 }
