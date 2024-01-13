@@ -82,4 +82,12 @@ public class UserController {
         Long id = tokenService.parseId(authorization);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "getUserRole")
+    @GetMapping("/getUserRole")
+    public ResponseEntity<String> getUserRole(@RequestHeader String authorization) throws NotFoundException {
+        System.out.println(authorization);
+        String role = tokenService.parseRole(authorization);
+        return new ResponseEntity<>(role, HttpStatus.OK);
+    }
 }

@@ -71,8 +71,9 @@ public class LoginGUI extends JFrame {
                 try {
                     HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
                     if (response.statusCode() == 200) {
+                        System.out.println(response.body());
                         dispose(); // Zatvara trenutni prozor
-                        System.exit(0);
+                        //System.exit(0);
                     } else if(response.statusCode() == 403){
                         JOptionPane.showMessageDialog(LoginGUI.this, "Zabranjen pristup", "Greška", JOptionPane.ERROR_MESSAGE);
                     } else{

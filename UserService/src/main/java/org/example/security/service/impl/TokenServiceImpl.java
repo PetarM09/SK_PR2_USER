@@ -40,4 +40,9 @@ public class TokenServiceImpl implements TokenService {
     public Long parseId(String jwt) {
         return ((Number)parseToken(jwt.split(" ")[1]).get("id")).longValue();
     }
+
+    @Override
+    public String parseRole(String jwt) {
+        return (String)parseToken(jwt.split(" ")[1]).get("tip_korisnika");
+    }
 }

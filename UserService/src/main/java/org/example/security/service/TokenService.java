@@ -9,4 +9,5 @@ public interface TokenService {
     Claims parseToken(String jwt);
 
     public Long parseId(String jwt);
+    public String parseRole(String jwt);
 }
