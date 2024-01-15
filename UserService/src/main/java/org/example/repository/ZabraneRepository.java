@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface ZabraneRepository extends JpaRepository<Zabrane, Long> {
+public interface ZabraneRepository extends JpaRepository<Zabrane, Integer> {
     @Modifying
     @Query("UPDATE Zabrane z SET z.zabranjen = :zabranjen WHERE z.korisnikId = :korisnik_id")
     void updateZabranaStatus(@Param("korisnik_id") Integer korisnik_id, @Param("zabranjen") boolean zabranjen);

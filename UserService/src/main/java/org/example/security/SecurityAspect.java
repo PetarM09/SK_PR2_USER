@@ -36,6 +36,7 @@ public class SecurityAspect {
         //Get method signature
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
+        System.out.println(method.getName());
         //Check for authorization parameter
         String token = null;
         for (int i = 0; i < methodSignature.getParameterNames().length; i++) {
@@ -47,6 +48,7 @@ public class SecurityAspect {
                 }
             }
         }
+        System.out.println(token);
         //If token is not presents return UNAUTHORIZED response
         if (token == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

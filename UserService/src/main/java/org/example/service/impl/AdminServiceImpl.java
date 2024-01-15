@@ -28,4 +28,11 @@ public class AdminServiceImpl implements AdminService {
         zabraneRepository.updateZabranaStatus(korisnik_id, false);
     }
 
+    @Override
+    public boolean isZabranjen(Integer korisnik_id) {
+        if(!zabraneRepository.findById(korisnik_id).isPresent())
+            return false;
+        return zabraneRepository.findById(korisnik_id).get().isZabranjen();
+    }
+
 }
