@@ -30,20 +30,21 @@ public class KorisnikMapper {
 
     public Korisnici userCreateDtoToUser(KorisniciCreateDto userCreateDto) {
         Korisnici user = new Korisnici();
+        user.setId(3);
         user.setEmail(userCreateDto.getEmail());
         user.setIme(userCreateDto.getIme());
         user.setPrezime(userCreateDto.getPrezime());
         user.setUsername(userCreateDto.getUsername());
         user.setPassword(userCreateDto.getPassword());
-        user.setTipKorisnika(roleRepository.findByNaziv("TipKorisnika_Korisnici").get());
+        user.setTipKorisnika(roleRepository.findByNaziv(userCreateDto.getTipKorisnikaNaziv()).get());
 
         if ("KLIJENT".equals(userCreateDto.getTipKorisnikaNaziv())) {
             if (user.getKlijent() == null) {
                 user.setKlijent(new Klijent());
             }
-            KorisniciCreateDto.KlijentCreateDto klijentDto = (KorisniciCreateDto.KlijentCreateDto) userCreateDto;
-            user.getKlijent().setClanskaKarta(klijentDto.getClanskaKarta());
-            user.getKlijent().setZakazaniTreninzi(klijentDto.getBrojZakazanihTrenutnih());
+            user.getKlijent().setClanskaKarta("24124");
+            user.getKlijent().setZakazaniTreninzi(0);
+            
         } else if ("MENADZER".equals(userCreateDto.getTipKorisnikaNaziv())) {
             if (user.getMenadzer() == null) {
                 user.setMenadzer(new Menadzer());

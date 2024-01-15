@@ -1,6 +1,9 @@
 package org.example.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -49,9 +52,16 @@ public class UserController {
 
     @ApiOperation(value = "Register user")
     @PostMapping("/register-user")
-    public ResponseEntity<KorisniciDto> registerUser(@RequestBody @Valid KorisniciCreateDto userCreateDto) {
-        userCreateDto.setTipKorisnikaNaziv("KLIJENT");
-        return new ResponseEntity<>(userService.add(userCreateDto), HttpStatus.CREATED);
+    public ResponseEntity<KorisniciDto> registerUser(@RequestBody String jsonRequestBody) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            System.out.println(jsonRequestBody);
+            KorisniciCreateDto korisniciCreateDto = mapper.readValue(jsonRequestBody, KorisniciCreateDto.class);
+            return new ResponseEntity<>(userService.add(korisniciCreateDto), HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @ApiOperation(value = "Register user")

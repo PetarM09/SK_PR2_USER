@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 public class KorisniciDto{
@@ -18,7 +19,7 @@ public class KorisniciDto{
     @Size(max = 255)
     private String email;
     @NotNull
-    private LocalDate datumRodjenja;
+    private Date datumRodjenja;
     @NotNull
     @Size(max = 255)
     private String ime;
@@ -42,7 +43,7 @@ public class KorisniciDto{
         this.email = email;
     }
 
-    public void setDatumRodjenja(LocalDate datumRodjenja) {
+    public void setDatumRodjenja(Date datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 
@@ -70,7 +71,7 @@ public class KorisniciDto{
         return email;
     }
 
-    public LocalDate getDatumRodjenja() {
+    public Date getDatumRodjenja() {
         return datumRodjenja;
     }
 

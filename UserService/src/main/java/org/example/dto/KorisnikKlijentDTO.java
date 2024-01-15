@@ -3,12 +3,13 @@ package org.example.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class KorisnikKlijentDTO {
     private String username;
     private String email;
 
-    private LocalDate datumRodjenja;
+    private Date datumRodjenja;
 
     private String ime;
 
@@ -33,11 +34,11 @@ public class KorisnikKlijentDTO {
         this.email = email;
     }
 
-    public LocalDate getDatumRodjenja() {
+    public Date getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(LocalDate datumRodjenja) {
+    public void setDatumRodjenja(Date datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 

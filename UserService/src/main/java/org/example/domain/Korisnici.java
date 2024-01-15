@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "korisnici")
@@ -32,7 +33,7 @@ public class Korisnici implements Serializable {
 
     @NotNull
     @Column(name = "datum_rodjenja", nullable = false)
-    private LocalDate datumRodjenja;
+    private Date datumRodjenja;
 
     @Size(max = 255)
     @NotNull
@@ -49,7 +50,7 @@ public class Korisnici implements Serializable {
     @JoinColumn(name = "tip_korisnika_id", nullable = false)
     private TipKorisnika tipKorisnika;
 
-    @OneToOne(mappedBy = "korisnik")
+    @OneToOne(mappedBy = "korisnik", cascade = CascadeType.ALL)
     private Klijent klijent;
 
     @OneToOne(mappedBy = "korisnik")
@@ -90,11 +91,11 @@ public class Korisnici implements Serializable {
         this.email = email;
     }
 
-    public LocalDate getDatumRodjenja() {
+    public Date getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(LocalDate datumRodjenja) {
+    public void setDatumRodjenja(Date datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 
