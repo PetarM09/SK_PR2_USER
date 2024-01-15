@@ -46,7 +46,7 @@ public class KorisnikMapper {
             }
             user.getKlijent().setClanskaKarta("24124");
             user.getKlijent().setZakazaniTreninzi(0);
-            
+
         } else if ("MENADZER".equals(userCreateDto.getTipKorisnikaNaziv())) {
             if (user.getMenadzer() == null) {
                 user.setMenadzer(new Menadzer());
