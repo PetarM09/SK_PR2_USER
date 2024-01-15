@@ -5,4 +5,5 @@ public interface AdminService {
 
     void odobriPristup(Integer korisnik_id);
 
+    boolean isZabranjen(Integer korisnik_id);
 }
