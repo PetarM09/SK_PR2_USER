@@ -11,6 +11,7 @@ import org.example.dto.*;
 import org.example.mapper.KorisnikMapper;
 import org.example.repository.KlijentRepository;
 import org.example.repository.KorisniciRepository;
+import org.example.repository.MenadzerRepository;
 import org.example.security.service.TokenService;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
@@ -30,11 +31,15 @@ public class UserServiceImpl implements UserService {
     private KorisniciRepository userRepository;
     private KorisnikMapper userMapper;
     private KlijentRepository klijentRepository;
-    public UserServiceImpl(KorisniciRepository userRepository, TokenService tokenService, KorisnikMapper userMapper, KlijentRepository klijentRepository){
-        this.userRepository = userRepository;
+    private MenadzerRepository menadzerRepository;
+
+    public UserServiceImpl(EntityManager entityManager, TokenService tokenService, KorisniciRepository userRepository, KorisnikMapper userMapper, KlijentRepository klijentRepository, MenadzerRepository menadzerRepository) {
+        this.entityManager = entityManager;
         this.tokenService = tokenService;
+        this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.klijentRepository = klijentRepository;
+        this.menadzerRepository = menadzerRepository;
     }
 
     @Override

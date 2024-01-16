@@ -48,7 +48,7 @@ public class KorisnikMapper {
         user.setPassword(userCreateDto.getPassword());
         //Ovo je bilo zaboravljeno
         user.setDatumRodjenja(userCreateDto.getDatumRodjenja());
-        //
+
         user.setTipKorisnika(roleRepository.findByNaziv(userCreateDto.getTipKorisnikaNaziv()).get());
 
 

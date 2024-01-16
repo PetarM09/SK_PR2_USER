@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.example.domain.Zabrane;
 import org.example.repository.ZabraneRepository;
 import org.example.service.AdminService;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,4 @@ public class AdminServiceImpl implements AdminService {
             return false;
         return zabraneRepository.findById(korisnik_id).get().isZabranjen();
     }
-
 }

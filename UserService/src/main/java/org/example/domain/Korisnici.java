@@ -55,7 +55,7 @@ public class Korisnici implements Serializable {
     @OneToOne(mappedBy = "korisnik", cascade = CascadeType.ALL)
     private Klijent klijent;
 
-    @OneToOne(mappedBy = "korisnik")
+    @OneToOne(mappedBy = "korisnik", cascade = CascadeType.ALL)
     private Menadzer menadzer;
 
     @OneToOne(mappedBy = "korisnik")
