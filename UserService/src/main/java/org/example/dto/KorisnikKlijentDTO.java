@@ -9,7 +9,7 @@ public class KorisnikKlijentDTO {
     private String username;
     private String email;
 
-    private Date datumRodjenja;
+    private LocalDate datumRodjenja;
 
     private String ime;
 
@@ -17,6 +17,15 @@ public class KorisnikKlijentDTO {
 
     private String clanskaKarta;
     private Integer zakazaniTreninzi;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;
@@ -34,11 +43,11 @@ public class KorisnikKlijentDTO {
         this.email = email;
     }
 
-    public Date getDatumRodjenja() {
+    public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 

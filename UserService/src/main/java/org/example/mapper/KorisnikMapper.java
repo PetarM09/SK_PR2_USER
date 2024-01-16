@@ -44,8 +44,9 @@ public class KorisnikMapper {
             if (user.getKlijent() == null) {
                 user.setKlijent(new Klijent());
             }
-            user.getKlijent().setClanskaKarta("24124");
-            user.getKlijent().setZakazaniTreninzi(0);
+            KorisniciCreateDto.KlijentCreateDto klijentDto = (KorisniciCreateDto.KlijentCreateDto) userCreateDto;
+            user.getKlijent().setClanskaKarta(klijentDto.getClanskaKarta());
+            user.getKlijent().setZakazaniTreninzi(klijentDto.getBrojZakazanihTrenutnih());
 
         } else if ("MENADZER".equals(userCreateDto.getTipKorisnikaNaziv())) {
             if (user.getMenadzer() == null) {

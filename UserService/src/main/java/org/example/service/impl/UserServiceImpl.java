@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserService {
         korisnikKlijentDTO.setUsername(korisnik.getUsername());
         korisnikKlijentDTO.setClanskaKarta(klijent.getClanskaKarta());
         korisnikKlijentDTO.setZakazaniTreninzi(klijent.getZakazaniTreninzi());
+        korisnikKlijentDTO.setPassword(korisnik.getPassword());
         return korisnikKlijentDTO;
 
     }

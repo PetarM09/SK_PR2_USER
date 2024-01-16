@@ -19,7 +19,7 @@ public class KorisniciDto{
     @Size(max = 255)
     private String email;
     @NotNull
-    private Date datumRodjenja;
+    private LocalDate datumRodjenja;
     @NotNull
     @Size(max = 255)
     private String ime;
@@ -43,7 +43,7 @@ public class KorisniciDto{
         this.email = email;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 
@@ -71,7 +71,7 @@ public class KorisniciDto{
         return email;
     }
 
-    public Date getDatumRodjenja() {
+    public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 

@@ -1,5 +1,7 @@
 package org.example.domain;
 
+import org.apache.tomcat.jni.Local;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -33,7 +35,7 @@ public class Korisnici implements Serializable {
 
     @NotNull
     @Column(name = "datum_rodjenja", nullable = false)
-    private Date datumRodjenja;
+    private LocalDate datumRodjenja;
 
     @Size(max = 255)
     @NotNull
@@ -91,11 +93,11 @@ public class Korisnici implements Serializable {
         this.email = email;
     }
 
-    public Date getDatumRodjenja() {
+    public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 

@@ -25,7 +25,7 @@ public class KorisniciCreateDto {
     private String email;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    private Date datumRodjenja;
+    private LocalDate datumRodjenja;
     @NotNull
     @Size(max = 255)
     private String ime;
@@ -101,7 +101,7 @@ public class KorisniciCreateDto {
         return email;
     }
 
-    public Date getDatumRodjenja() {
+    public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 
@@ -137,7 +137,7 @@ public class KorisniciCreateDto {
         this.email = email;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 
