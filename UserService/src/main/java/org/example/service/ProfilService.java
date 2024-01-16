@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 
 public interface ProfilService {
     KorisniciDto azurirajProfil(Integer korisnikId, KorisniciDto updateDto) throws NotFoundException;
+
+    KorisniciDto promeniLozinku(Integer id, KorisniciDto updateDto);
 }

@@ -26,4 +26,10 @@ public class ProfilController {
         KorisniciDto azuriraniProfil = profilService.azurirajProfil(updateDto.getId(), updateDto);
         return new ResponseEntity<>(azuriraniProfil, HttpStatus.OK);
     }
+
+    @PutMapping("/promeni-lozinku")
+    public ResponseEntity<KorisniciDto> promeniLozinku(@RequestBody @Valid KorisniciDto updateDto, @RequestHeader String authorization) throws NotFoundException {
+        KorisniciDto azuriraniProfil = profilService.promeniLozinku(updateDto.getId(), updateDto);
+        return new ResponseEntity<>(azuriraniProfil, HttpStatus.OK);
+    }
 }
