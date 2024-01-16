@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public KorisniciDto add(KorisniciCreateDto userCreateDto) {
         Korisnici user = userMapper.userCreateDtoToUser(userCreateDto);
-        klijentRepository.save(user.getKlijent());
         userRepository.save(user);
+
         return userMapper.userToUserDto(user);
     }
 

@@ -5,17 +5,25 @@ import org.example.domain.Korisnici;
 import org.example.domain.Menadzer;
 import org.example.dto.KorisniciCreateDto;
 import org.example.dto.KorisniciDto;
-import org.example.dto.MenadzerDTO;
+import org.example.repository.KlijentRepository;
+import org.example.repository.MenadzerRepository;
 import org.example.repository.TipKorisnikaRepository;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class KorisnikMapper {
 
     private TipKorisnikaRepository roleRepository;
+    private final KlijentRepository klijentRepository;
+    private final MenadzerRepository menadzerRepository;
 
-    public KorisnikMapper(TipKorisnikaRepository roleRepository) {
+    public KorisnikMapper(TipKorisnikaRepository roleRepository,
+                          KlijentRepository klijentRepository, MenadzerRepository menadzerRepository) {
         this.roleRepository = roleRepository;
+        this.klijentRepository = klijentRepository;
+        this.menadzerRepository = menadzerRepository;
     }
 
     public KorisniciDto userToUserDto(Korisnici user) {
@@ -32,29 +40,51 @@ public class KorisnikMapper {
 
     public Korisnici userCreateDtoToUser(KorisniciCreateDto userCreateDto) {
         Korisnici user = new Korisnici();
-        user.setId(3);
+        user.setId(5);
         user.setEmail(userCreateDto.getEmail());
         user.setIme(userCreateDto.getIme());
         user.setPrezime(userCreateDto.getPrezime());
         user.setUsername(userCreateDto.getUsername());
         user.setPassword(userCreateDto.getPassword());
+        //Ovo je bilo zaboravljeno
+        user.setDatumRodjenja(userCreateDto.getDatumRodjenja());
+        //
         user.setTipKorisnika(roleRepository.findByNaziv(userCreateDto.getTipKorisnikaNaziv()).get());
 
-        if ("KLIJENT".equals(userCreateDto.getTipKorisnikaNaziv())) {
+
+        if (userCreateDto.getTipKorisnikaNaziv().equalsIgnoreCase("klijent")){
             if (user.getKlijent() == null) {
                 user.setKlijent(new Klijent());
             }
-            KorisniciCreateDto.KlijentCreateDto klijentDto = (KorisniciCreateDto.KlijentCreateDto) userCreateDto;
-            user.getKlijent().setClanskaKarta(klijentDto.getClanskaKarta());
-            user.getKlijent().setZakazaniTreninzi(klijentDto.getBrojZakazanihTrenutnih());
-
-        } else if ("MENADZER".equals(userCreateDto.getTipKorisnikaNaziv())) {
+        }else if(userCreateDto.getTipKorisnikaNaziv().equalsIgnoreCase("menadzer")){
             if (user.getMenadzer() == null) {
                 user.setMenadzer(new Menadzer());
             }
-            KorisniciCreateDto.MenadzerCreateDto menadzerDto = (KorisniciCreateDto.MenadzerCreateDto) userCreateDto;
-            user.getMenadzer().setSalaNaziv(menadzerDto.getSalaNaziv());
-            user.getMenadzer().setDatumZaposljavanja(menadzerDto.getDatumZaposljavanja());
+        }
+
+
+        if ("KLIJENT".equals(userCreateDto.getTipKorisnikaNaziv())) {
+//            if (user.getKlijent() == null) {
+//
+//                user.setKlijent(new Klijent());
+//            }
+           // KorisniciCreateDto.KlijentCreateDto klijentDto = (KorisniciCreateDto.KlijentCreateDto) userCreateDto;
+//            user.getKlijent().setClanskaKarta(klijentDto.getClanskaKarta());
+//            user.getKlijent().setZakazaniTreninzi(klijentDto.getBrojZakazanihTrenutnih());
+
+            user.getKlijent().setClanskaKarta("231231");
+            user.getKlijent().setZakazaniTreninzi(0);
+        } else if ("MENADZER".equals(userCreateDto.getTipKorisnikaNaziv())) {
+//            if (user.getMenadzer() == null) {
+//                user.setMenadzer(new Menadzer());
+//            }
+//            KorisniciCreateDto.MenadzerCreateDto menadzerDto = (KorisniciCreateDto.MenadzerCreateDto) userCreateDto;
+//            user.getMenadzer().setSalaNaziv(menadzerDto.getSalaNaziv());
+//            user.getMenadzer().setDatumZaposljavanja(menadzerDto.getDatumZaposljavanja());
+
+            user.getMenadzer().setDatumZaposljavanja(LocalDate.now());
+            user.getMenadzer().setSalaNaziv("a");
+            menadzerRepository.save(user.getMenadzer());
         }
         return user;
     }

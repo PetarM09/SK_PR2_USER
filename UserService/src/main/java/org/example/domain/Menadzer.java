@@ -8,7 +8,12 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "menadzer")
 public class Menadzer implements java.io.Serializable{
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
     @OneToOne
     @JoinColumn(name = "korisnik_id")
     private Korisnici korisnik;
@@ -22,6 +27,13 @@ public class Menadzer implements java.io.Serializable{
     @Column(name = "datum_zaposljavanja", nullable = false)
     private LocalDate datumZaposljavanja;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Korisnici getKorisnik() {
         return korisnik;

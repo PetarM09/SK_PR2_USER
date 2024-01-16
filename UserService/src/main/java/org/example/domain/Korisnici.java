@@ -130,7 +130,13 @@ public class Korisnici implements Serializable {
     }
 
     public void setKlijent(Klijent klijent) {
+
+        //this.klijent = klijent;
+
         this.klijent = klijent;
+        if (klijent != null) {
+            klijent.setKorisnik(this);
+        }
     }
 
     public Menadzer getMenadzer() {
@@ -139,5 +145,11 @@ public class Korisnici implements Serializable {
 
     public void setMenadzer(Menadzer menadzer) {
         this.menadzer = menadzer;
+
+        if (menadzer != null) {
+            menadzer.setKorisnik(this);
+        }
     }
+
+
 }

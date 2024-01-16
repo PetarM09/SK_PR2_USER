@@ -1,6 +1,8 @@
 package org.example.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.example.helper.LocalDateDeserializer;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,6 +25,7 @@ public class KorisniciCreateDto {
     @NotNull
     @Size(max = 255)
     private String email;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private LocalDate datumRodjenja;
@@ -65,6 +68,8 @@ public class KorisniciCreateDto {
         @Size(max = 255)
         private String salaNaziv;
 
+        @JsonDeserialize(using = LocalDateDeserializer.class)
+        @JsonFormat(pattern = "yyyy-MM-dd")
         @NotNull
         private LocalDate datumZaposljavanja;
 

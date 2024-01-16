@@ -54,4 +54,5 @@ public class Klijent implements java.io.Serializable{
     public void setId(Integer id) {
         this.id = id;
     }
+    
 }
