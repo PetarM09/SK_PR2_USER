@@ -2,7 +2,6 @@ package org.example.service;
 
 
 import javassist.NotFoundException;
-import org.example.domain.Klijent;
 import org.example.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,4 +19,8 @@ public interface UserService {
     KorisniciDto getUser(Integer id);
     String verifikujKorisnika(String kod);
     KorisniciDto findClientById(Long id);
+
+    String getImeSale(Long idMenadzera);
+
+    void azurirajImeSale(String imeSale, String token);
 }

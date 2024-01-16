@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -113,5 +115,31 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<KorisniciDto> getByIdNoToken(@PathVariable("id") Long id,@RequestHeader String authorization) {
         return new ResponseEntity<>(userService.findClientById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getImeSale/{idMenadzera}")
+    public ResponseEntity<String> getImeSale(@PathVariable("idMenadzera") Long idMenadzera) {
+        return new ResponseEntity<>(userService.getImeSale(idMenadzera), HttpStatus.OK);
+    }
+
+    @PostMapping("/azuriraj-ime-sale")
+    public ResponseEntity<String> azurirajImeSale(@RequestBody String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode jsonNode = mapper.readTree(json);
+            String imeSale = jsonNode.get("ime").asText();
+            String token = jsonNode.get("token").asText();
+            userService.azurirajImeSale(imeSale, token);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+        /*try {
+            userService.azurirajImeSale(imeSale);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);*/
     }
 }

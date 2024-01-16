@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import javassist.NotFoundException;
 import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
+import org.example.domain.Menadzer;
 import org.example.domain.Zabrane;
 import org.example.dto.*;
 import org.example.helper.MessageHelper;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
     private KorisniciRepository userRepository;
     private KorisnikMapper userMapper;
     private KlijentRepository klijentRepository;
+    private MenadzerRepository menadzerRepository;
     private MessageHelper messageHelper;
     private JmsTemplate jmsTemplate;
     private String destination;
@@ -45,6 +47,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(EntityManager entityManager, TokenService tokenService,
                            KorisniciRepository userRepository, KorisnikMapper userMapper,
                            KlijentRepository klijentRepository, MessageHelper messageHelper,
+                           MenadzerRepository menadzerRepository,
                            JmsTemplate jmsTemplate,
                            @Value("${destination.createNotification}") String destination,
                            @Value("${destination.passwordChanged}") String destinationForPassword) {
@@ -57,6 +60,7 @@ public class UserServiceImpl implements UserService {
         this.jmsTemplate = jmsTemplate;
         this.destination = destination;
         this.destinationForPassword = destinationForPassword;
+        this.menadzerRepository = menadzerRepository;
     }
 
     @Override
@@ -169,5 +173,18 @@ public class UserServiceImpl implements UserService {
         } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String getImeSale(Long idMenadzera) {
+        return menadzerRepository.findByKorisnik_id(Math.toIntExact(idMenadzera)).get().getSalaNaziv();
+    }
+
+    @Override
+    public void azurirajImeSale(String imeSale, String token) {
+        Long id = tokenService.parseId(token);
+        Menadzer menadzer = menadzerRepository.findByKorisnik_id(Math.toIntExact(id)).get();
+        menadzer.setSalaNaziv(imeSale);
+        menadzerRepository.save(menadzer);
     }
 }
