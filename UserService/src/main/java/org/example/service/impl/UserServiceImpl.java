@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import javassist.NotFoundException;
 import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
+import org.example.domain.Zabrane;
 import org.example.dto.*;
 import org.example.helper.MessageHelper;
 import org.example.mapper.KorisnikMapper;
@@ -68,6 +69,12 @@ public class UserServiceImpl implements UserService {
     public KorisniciDto add(KorisniciCreateDto userCreateDto) {
         Korisnici user = userMapper.userCreateDtoToUser(userCreateDto);
 
+        Zabrane zabrane = new Zabrane();
+        zabrane.setKorisnik(user);
+        zabrane.setKorisnikId(user.getId());
+        zabrane.setZabranjen(false);
+        user.setZabrane(zabrane);
+
         Random rnd = new Random();
         String activationCode = String.valueOf(rnd.nextInt(999999));
         user.setActivationCode(activationCode);
@@ -106,6 +113,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public TokenResponseDto login(TokenRequestDto tokenRequestDto) throws NotFoundException {
+        System.out.println(tokenRequestDto.getEmail());
+        System.out.println(tokenRequestDto.getPassword());
         //Try to find active user for specified credentials
         Korisnici user = userRepository
                 .findByEmailAndPassword(tokenRequestDto.getEmail(), tokenRequestDto.getPassword())
@@ -138,19 +147,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public KorisnikKlijentDTO getUser(Integer id) {
+    public KorisniciDto getUser(Integer id) {
         Klijent klijent = klijentRepository.findByKorisnikId(id).orElse(null);
         Korisnici korisnik = userRepository.findById(id).orElse(null);
-        KorisnikKlijentDTO korisnikKlijentDTO = new KorisnikKlijentDTO();
-        korisnikKlijentDTO.setEmail(korisnik.getEmail());
-        korisnikKlijentDTO.setIme(korisnik.getIme());
-        korisnikKlijentDTO.setPrezime(korisnik.getPrezime());
-        korisnikKlijentDTO.setDatumRodjenja(korisnik.getDatumRodjenja());
-        korisnikKlijentDTO.setUsername(korisnik.getUsername());
-        korisnikKlijentDTO.setClanskaKarta(klijent.getClanskaKarta());
-        korisnikKlijentDTO.setZakazaniTreninzi(klijent.getZakazaniTreninzi());
-        korisnikKlijentDTO.setPassword(korisnik.getPassword());
-        return korisnikKlijentDTO;
+        KorisniciDto korisniciDto = new KorisniciDto();
+        korisniciDto.setEmail(korisnik.getEmail());
+        korisniciDto.setIme(korisnik.getIme());
+        korisniciDto.setPrezime(korisnik.getPrezime());
+        korisniciDto.setDatumRodjenja(korisnik.getDatumRodjenja());
+        korisniciDto.setUsername(korisnik.getUsername());
+        korisniciDto.setPassword(korisnik.getPassword());
+        return korisniciDto;
     }
 
     @Override

@@ -86,7 +86,7 @@ public class UserController {
 
     @ApiOperation(value = "getUser")
     @GetMapping("/getUser/{id}")
-    public ResponseEntity<KorisnikKlijentDTO> getUser(@PathVariable Integer id) throws NotFoundException {
+    public ResponseEntity<KorisniciDto> getUser(@PathVariable Integer id) throws NotFoundException {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 

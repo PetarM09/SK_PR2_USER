@@ -17,7 +17,7 @@ public interface UserService {
 
     boolean proveriZabranu(Integer idKorisnika);
 
-    KorisnikKlijentDTO getUser(Integer id);
+    KorisniciDto getUser(Integer id);
     String verifikujKorisnika(String kod);
     KorisniciDto findClientById(Long id);
 }
