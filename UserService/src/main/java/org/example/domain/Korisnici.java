@@ -14,6 +14,7 @@ import java.util.Date;
 @Table(name = "korisnici")
 public class Korisnici implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -151,5 +152,11 @@ public class Korisnici implements Serializable {
         }
     }
 
+    public Zabrane getZabrane() {
+        return zabrane;
+    }
 
+    public void setZabrane(Zabrane zabrane) {
+        this.zabrane = zabrane;
+    }
 }

@@ -11,6 +11,7 @@ import org.example.repository.TipKorisnikaRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 @Component
 public class KorisnikMapper {
@@ -40,7 +41,7 @@ public class KorisnikMapper {
 
     public Korisnici userCreateDtoToUser(KorisniciCreateDto userCreateDto) {
         Korisnici user = new Korisnici();
-        user.setId(5);
+
         user.setEmail(userCreateDto.getEmail());
         user.setIme(userCreateDto.getIme());
         user.setPrezime(userCreateDto.getPrezime());
@@ -64,27 +65,18 @@ public class KorisnikMapper {
 
 
         if ("KLIJENT".equals(userCreateDto.getTipKorisnikaNaziv())) {
-//            if (user.getKlijent() == null) {
-//
-//                user.setKlijent(new Klijent());
-//            }
-           // KorisniciCreateDto.KlijentCreateDto klijentDto = (KorisniciCreateDto.KlijentCreateDto) userCreateDto;
-//            user.getKlijent().setClanskaKarta(klijentDto.getClanskaKarta());
-//            user.getKlijent().setZakazaniTreninzi(klijentDto.getBrojZakazanihTrenutnih());
 
-            user.getKlijent().setClanskaKarta("231231");
+            Random random = new Random();
+            int randomInt = 10000000 + random.nextInt(90000000);
+
+            user.getKlijent().setClanskaKarta(String.valueOf(randomInt));
             user.getKlijent().setZakazaniTreninzi(0);
+
         } else if ("MENADZER".equals(userCreateDto.getTipKorisnikaNaziv())) {
-//            if (user.getMenadzer() == null) {
-//                user.setMenadzer(new Menadzer());
-//            }
-//            KorisniciCreateDto.MenadzerCreateDto menadzerDto = (KorisniciCreateDto.MenadzerCreateDto) userCreateDto;
-//            user.getMenadzer().setSalaNaziv(menadzerDto.getSalaNaziv());
-//            user.getMenadzer().setDatumZaposljavanja(menadzerDto.getDatumZaposljavanja());
 
             user.getMenadzer().setDatumZaposljavanja(LocalDate.now());
             user.getMenadzer().setSalaNaziv("a");
-            menadzerRepository.save(user.getMenadzer());
+
         }
         return user;
     }

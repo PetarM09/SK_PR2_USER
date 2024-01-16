@@ -7,11 +7,13 @@ import io.jsonwebtoken.Jwts;
 import javassist.NotFoundException;
 import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
+import org.example.domain.Zabrane;
 import org.example.dto.*;
 import org.example.mapper.KorisnikMapper;
 import org.example.repository.KlijentRepository;
 import org.example.repository.KorisniciRepository;
 import org.example.repository.MenadzerRepository;
+import org.example.repository.ZabraneRepository;
 import org.example.security.service.TokenService;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,14 +35,17 @@ public class UserServiceImpl implements UserService {
     private KorisnikMapper userMapper;
     private KlijentRepository klijentRepository;
     private MenadzerRepository menadzerRepository;
+    private final ZabraneRepository zabraneRepository;
 
-    public UserServiceImpl(EntityManager entityManager, TokenService tokenService, KorisniciRepository userRepository, KorisnikMapper userMapper, KlijentRepository klijentRepository, MenadzerRepository menadzerRepository) {
+    public UserServiceImpl(EntityManager entityManager, TokenService tokenService, KorisniciRepository userRepository, KorisnikMapper userMapper, KlijentRepository klijentRepository, MenadzerRepository menadzerRepository,
+                           ZabraneRepository zabraneRepository) {
         this.entityManager = entityManager;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.klijentRepository = klijentRepository;
         this.menadzerRepository = menadzerRepository;
+        this.zabraneRepository = zabraneRepository;
     }
 
     @Override
@@ -51,7 +57,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public KorisniciDto add(KorisniciCreateDto userCreateDto) {
         Korisnici user = userMapper.userCreateDtoToUser(userCreateDto);
+        Zabrane zabrane = new Zabrane();
+        zabrane.setKorisnik(user);
+        zabrane.setKorisnikId(user.getId());
+        zabrane.setZabranjen(false);
+        user.setZabrane(zabrane);
+
+
         userRepository.save(user);
+        zabraneRepository.save(zabrane);
 
         return userMapper.userToUserDto(user);
     }
