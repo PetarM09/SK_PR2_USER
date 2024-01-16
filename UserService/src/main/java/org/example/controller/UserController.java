@@ -104,4 +104,14 @@ public class UserController {
         String role = tokenService.parseRole(authorization);
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
+
+    @GetMapping("/verifikuj/{kod}")
+    public ResponseEntity<String> verifyUser(@PathVariable("kod") String kod) {
+        return new ResponseEntity<>(userService.verifikujKorisnika(kod), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<KorisniciDto> getByIdNoToken(@PathVariable("id") Long id,@RequestHeader String authorization) {
+        return new ResponseEntity<>(userService.findClientById(id), HttpStatus.OK);
+    }
 }

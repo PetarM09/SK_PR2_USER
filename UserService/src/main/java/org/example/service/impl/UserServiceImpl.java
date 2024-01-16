@@ -7,23 +7,25 @@ import io.jsonwebtoken.Jwts;
 import javassist.NotFoundException;
 import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
-import org.example.domain.Zabrane;
 import org.example.dto.*;
+import org.example.helper.MessageHelper;
 import org.example.mapper.KorisnikMapper;
 import org.example.repository.KlijentRepository;
 import org.example.repository.KorisniciRepository;
 import org.example.repository.MenadzerRepository;
-import org.example.repository.ZabraneRepository;
 import org.example.security.service.TokenService;
 import org.example.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -34,18 +36,26 @@ public class UserServiceImpl implements UserService {
     private KorisniciRepository userRepository;
     private KorisnikMapper userMapper;
     private KlijentRepository klijentRepository;
-    private MenadzerRepository menadzerRepository;
-    private final ZabraneRepository zabraneRepository;
+    private MessageHelper messageHelper;
+    private JmsTemplate jmsTemplate;
+    private String destination;
+    private String destinationForPassword;
 
-    public UserServiceImpl(EntityManager entityManager, TokenService tokenService, KorisniciRepository userRepository, KorisnikMapper userMapper, KlijentRepository klijentRepository, MenadzerRepository menadzerRepository,
-                           ZabraneRepository zabraneRepository) {
+    public UserServiceImpl(EntityManager entityManager, TokenService tokenService,
+                           KorisniciRepository userRepository, KorisnikMapper userMapper,
+                           KlijentRepository klijentRepository, MessageHelper messageHelper,
+                           JmsTemplate jmsTemplate,
+                           @Value("${destination.createNotification}") String destination,
+                           @Value("${destination.passwordChanged}") String destinationForPassword) {
         this.entityManager = entityManager;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.klijentRepository = klijentRepository;
-        this.menadzerRepository = menadzerRepository;
-        this.zabraneRepository = zabraneRepository;
+        this.messageHelper = messageHelper;
+        this.jmsTemplate = jmsTemplate;
+        this.destination = destination;
+        this.destinationForPassword = destinationForPassword;
     }
 
     @Override
@@ -57,17 +67,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public KorisniciDto add(KorisniciCreateDto userCreateDto) {
         Korisnici user = userMapper.userCreateDtoToUser(userCreateDto);
-        Zabrane zabrane = new Zabrane();
-        zabrane.setKorisnik(user);
-        zabrane.setKorisnikId(user.getId());
-        zabrane.setZabranjen(false);
-        user.setZabrane(zabrane);
 
-
+        Random rnd = new Random();
+        String activationCode = String.valueOf(rnd.nextInt(999999));
+        user.setActivationCode(activationCode);
         userRepository.save(user);
-        zabraneRepository.save(zabrane);
+
+        Optional<Korisnici> userFromDB = userRepository.findByUsername(userCreateDto.getUsername());
+        Long id = Long.valueOf(userFromDB.get().getId());
+        String ime = userFromDB.get().getIme();
+        String prezime = userFromDB.get().getPrezime();
+        String email = userFromDB.get().getEmail();
+
+        ActivationEmailDataDto activationEmailDataDto = new ActivationEmailDataDto("ACTIVATION_EMAIL",ime,prezime,id,email);
+        activationEmailDataDto.setActivationCode(activationCode);
+        activationEmailDataDto.setActivationLink("http://localhost:8080/api/korisnici/verifikuj/"+activationCode);
+        jmsTemplate.convertAndSend(destination, messageHelper.createTextMessage(activationEmailDataDto));
 
         return userMapper.userToUserDto(user);
+    }
+
+    @Override
+    public String verifikujKorisnika(String kod) {
+
+        Korisnici korisnici = null;
+        try {
+            korisnici = userRepository.findUserByActivationCode(kod).orElseThrow(() -> new NotFoundException("Invalid activation code"));
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        korisnici.setActivationCode("Verifikovan");
+
+        userRepository.save(korisnici);
+
+        return "Successfully verified";
     }
 
     @Override
@@ -117,6 +151,16 @@ public class UserServiceImpl implements UserService {
         korisnikKlijentDTO.setZakazaniTreninzi(klijent.getZakazaniTreninzi());
         korisnikKlijentDTO.setPassword(korisnik.getPassword());
         return korisnikKlijentDTO;
+    }
 
+    @Override
+    public KorisniciDto findClientById(Long id) {
+        try {
+            return userRepository.findById(Math.toIntExact(id))
+                    .map(userMapper::userToUserDto)
+                    .orElseThrow(() -> new NotFoundException(String.format("Korisnik sa idem: %d nije pronadjen.", id)));
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

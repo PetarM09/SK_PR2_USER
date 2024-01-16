@@ -12,4 +12,6 @@ public interface KorisniciRepository extends JpaRepository<Korisnici, Integer> {
       Optional<Korisnici> findByUsernameAndPassword(String username, String password);
       Optional<Korisnici> findByEmailAndPassword(String email, String password);
       Optional<Korisnici> findById(Integer id);
+      Optional<Korisnici> findByUsername(String username);
+      Optional<Korisnici> findUserByActivationCode(String code);
 }

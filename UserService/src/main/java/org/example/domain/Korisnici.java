@@ -59,8 +59,17 @@ public class Korisnici implements Serializable {
     @OneToOne(mappedBy = "korisnik", cascade = CascadeType.ALL)
     private Menadzer menadzer;
 
-    @OneToOne(mappedBy = "korisnik")
+    @OneToOne(mappedBy = "korisnik", cascade = CascadeType.ALL)
     private Zabrane zabrane;
+    private String activationCode;
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
 
     public Integer getId() {
         return id;

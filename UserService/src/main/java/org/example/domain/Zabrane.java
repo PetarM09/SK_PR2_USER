@@ -10,8 +10,8 @@ public class Zabrane implements java.io.Serializable{
     @Column(name = "korisnik_id")
     private Integer korisnikId;
 
-    @MapsId
     @OneToOne
+    @MapsId
     @JoinColumn(name = "korisnik_id")
     private Korisnici korisnik;
 
