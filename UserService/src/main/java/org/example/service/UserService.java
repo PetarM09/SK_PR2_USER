@@ -27,4 +27,6 @@ public interface UserService {
     void povecajBrojTreninga(Integer id);
 
     void smanjiBrojTreninga(Integer id);
+
+    String getIdMenadzera(String imeSale);
 }

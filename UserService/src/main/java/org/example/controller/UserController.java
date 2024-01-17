@@ -135,6 +135,10 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("getIdMenadzera/{imeSale}")
+    public ResponseEntity<String> getIdMenadzera(@PathVariable("imeSale") String imeSale) {
+        return new ResponseEntity<>(userService.getIdMenadzera(imeSale), HttpStatus.OK);
+    }
 
     @PostMapping("/povecaj-broj-treninga")
     public ResponseEntity<String> povecajBrojTreninga(@RequestBody KorisniciDto korisniciDto) {
