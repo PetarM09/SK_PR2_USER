@@ -4,6 +4,7 @@ package org.example.service.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.swagger.models.auth.In;
 import javassist.NotFoundException;
 import org.example.domain.Klijent;
 import org.example.domain.Korisnici;
@@ -186,5 +187,12 @@ public class UserServiceImpl implements UserService {
         Menadzer menadzer = menadzerRepository.findByKorisnik_id(Math.toIntExact(id)).get();
         menadzer.setSalaNaziv(imeSale);
         menadzerRepository.save(menadzer);
+    }
+
+    @Override
+    public void povecajBrojTreninga(Integer id) {
+        Klijent klijent = klijentRepository.findByKorisnikId(id).get();
+        klijent.setZakazaniTreninzi(klijent.getZakazaniTreninzi() + 1);
+        klijentRepository.save(klijent);
     }
 }

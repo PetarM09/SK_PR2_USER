@@ -23,4 +23,6 @@ public interface UserService {
     String getImeSale(Long idMenadzera);
 
     void azurirajImeSale(String imeSale, String token);
+
+    void povecajBrojTreninga(Integer id);
 }

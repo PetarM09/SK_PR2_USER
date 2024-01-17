@@ -134,12 +134,11 @@ public class UserController {
             throw new RuntimeException(e);
         }
         return new ResponseEntity<>(HttpStatus.OK);
-        /*try {
-            userService.azurirajImeSale(imeSale);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);*/
+    }
+
+    @PostMapping("/povecaj-broj-treninga")
+    public ResponseEntity<String> povecajBrojTreninga(@RequestBody KorisniciDto korisniciDto) {
+        userService.povecajBrojTreninga(korisniciDto.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

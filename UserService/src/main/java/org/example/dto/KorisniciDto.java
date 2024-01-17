@@ -9,22 +9,11 @@ import java.util.Objects;
 
 public class KorisniciDto{
     private Integer id;
-    @NotNull
-    @Size(max = 255)
     private String username;
-    @NotNull
-    @Size(max = 255)
     private String password;
-    @NotNull
-    @Size(max = 255)
     private String email;
-    @NotNull
     private LocalDate datumRodjenja;
-    @NotNull
-    @Size(max = 255)
     private String ime;
-    @NotNull
-    @Size(max = 255)
     private String prezime;
 
     public void setId(Integer id) {
