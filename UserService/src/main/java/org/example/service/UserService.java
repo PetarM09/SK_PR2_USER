@@ -25,4 +25,6 @@ public interface UserService {
     void azurirajImeSale(String imeSale, String token);
 
     void povecajBrojTreninga(Integer id);
+
+    void smanjiBrojTreninga(Integer id);
 }

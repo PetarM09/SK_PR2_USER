@@ -195,4 +195,11 @@ public class UserServiceImpl implements UserService {
         klijent.setZakazaniTreninzi(klijent.getZakazaniTreninzi() + 1);
         klijentRepository.save(klijent);
     }
+
+    @Override
+    public void smanjiBrojTreninga(Integer id) {
+        Klijent klijent = klijentRepository.findByKorisnikId(id).get();
+        klijent.setZakazaniTreninzi(klijent.getZakazaniTreninzi() - 1);
+        klijentRepository.save(klijent);
+    }
 }

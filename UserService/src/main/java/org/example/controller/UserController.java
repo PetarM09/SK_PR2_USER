@@ -141,4 +141,10 @@ public class UserController {
         userService.povecajBrojTreninga(korisniciDto.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/smanji-broj-treninga")
+    public ResponseEntity<String> smanjiBrojTreninga(@RequestBody KorisniciDto korisniciDto) {
+        userService.smanjiBrojTreninga(korisniciDto.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
