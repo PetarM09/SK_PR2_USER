@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
         ActivationEmailDataDto activationEmailDataDto = new ActivationEmailDataDto("ACTIVATION_EMAIL",ime,prezime,id,email);
         activationEmailDataDto.setActivationCode(activationCode);
-        activationEmailDataDto.setActivationLink("http://localhost:8080/api/korisnici/verifikuj/"+activationCode);
+        activationEmailDataDto.setActivationLink("http://localhost:8084/users/api/korisnici/verifikuj/"+activationCode);
         jmsTemplate.convertAndSend(destination, messageHelper.createTextMessage(activationEmailDataDto));
 
         return userMapper.userToUserDto(user);
